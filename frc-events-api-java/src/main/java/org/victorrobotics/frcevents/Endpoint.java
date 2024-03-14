@@ -35,9 +35,18 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
   static {
     String username = System.getenv("FRC_EVENTS_API_USERNAME");
     String token = System.getenv("FRC_EVENTS_API_TOKEN");
+    if (username == null || token == null) {
+      throw new FrcAuthException();
+    }
     String authStr = username + ":" + token;
     AUTH_HEADER = "Basic " + Base64.getEncoder()
                                    .encodeToString(authStr.getBytes(StandardCharsets.UTF_8));
+  }
+
+  public static class FrcAuthException extends RuntimeException {
+    public FrcAuthException() {
+      super("Missing FRC_EVENTS_API_USERNAME and/or FRC_EVENTS_API_TOKEN environment variables");
+    }
   }
 
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();

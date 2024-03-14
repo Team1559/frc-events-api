@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -54,7 +54,8 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
   static final ObjectMapper JSON_OBJECT_MAPPER =
       new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                         .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
-                        .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
+                        .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
+                        .registerModule(new JavaTimeModule());
 
   private static ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 

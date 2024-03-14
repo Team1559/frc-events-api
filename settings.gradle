@@ -1,0 +1,3 @@
+rootProject.name = 'FRC Events API'
+
+include 'frc-events-api-java'

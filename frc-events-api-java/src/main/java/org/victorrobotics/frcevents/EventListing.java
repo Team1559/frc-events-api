@@ -36,6 +36,8 @@ public record EventListing(@JsonProperty("Events") List<Event> events,
       OFF_SEASON("OffSeason"),
       OFF_SEASON_SYNC("OffSeasonWithAzureSync"),
 
+      REMOTE("Remote"),
+
       DISTRICT_EVENT("DistrictEvent"),
       DISTRICT_CHAMPIONSHIP("DistrictChampionship"),
       DISTRICT_CHAMPIONSHIP_WITH_LEVELS("DistrictChampionshipWithLevels"),

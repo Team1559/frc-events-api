@@ -1,0 +1,9 @@
+{
+  "java.completion.importOrder": [
+    "#",
+    "org.victorrobotics.frcevents",
+    "java",
+    "javax",
+    ""
+  ]
+}

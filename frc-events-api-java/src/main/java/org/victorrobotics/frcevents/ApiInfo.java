@@ -9,8 +9,7 @@ public record ApiInfo(@JsonProperty int currentSeason,
                       @JsonProperty String apiVersion,
                       @JsonProperty Status status) {
   public enum Status {
-    NORMAL("normal"),
-    UNKNOWN("???");
+    NORMAL("normal");
 
     @JsonValue
     private final String value;

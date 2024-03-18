@@ -1,8 +1,9 @@
 package org.victorrobotics.frcevents;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record SeasonSummary(@JsonProperty int eventCount,
                             @JsonProperty String gameName,

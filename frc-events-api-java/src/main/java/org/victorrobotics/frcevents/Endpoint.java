@@ -3,17 +3,13 @@ package org.victorrobotics.frcevents;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -55,9 +51,8 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
       new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                         .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
                         .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
-                        .registerModule(new JavaTimeModule());
-
-  private static ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+                        .registerModule(new JavaTimeModule())
+                        .registerModule(Deserializers.module());
 
   private final Request.Builder requestBuilder;
   private final ObjectReader    jsonReader;
@@ -74,56 +69,43 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
     value = Optional.empty();
   }
 
+  public URL getUrl() {
+    return requestBuilder.build()
+                         .url()
+                         .url();
+  }
+
   public Optional<T> get() {
     return value;
   }
 
   public Optional<T> refresh() {
-    try {
-      Call call = HTTP_CLIENT.newCall(requestBuilder.build());
-      Response response = call.execute();
+    Call call = HTTP_CLIENT.newCall(requestBuilder.build());
+    try (Response response = call.execute()) {
       update(response);
     } catch (IOException e) {}
 
     return get();
   }
 
-  public CompletableFuture<Optional<T>> refreshAsync() {
-    return CompletableFuture.supplyAsync(requestBuilder::build, EXECUTOR)
-                            .thenApply(HTTP_CLIENT::newCall)
-                            .thenApply(call -> {
-                              try {
-                                return call.execute();
-                              } catch (IOException e) {
-                                throw new CompletionException(e);
-                              }
-                            })
-                            .thenAccept(this::update)
-                            .thenApply(x -> get());
-  }
+  private void update(Response response) throws IOException {
+    int statusCode = response.code();
+    if (statusCode != 200 && statusCode != 304) return;
 
-  private void update(Response response) {
-    try (response) {
-      int statusCode = response.code();
-      if (statusCode != 200 && statusCode != 304) return;
+    String etag = response.headers()
+                          .get("Last-Modified");
+    if (etag != null) {
+      requestBuilder.header("If-Modified-Since", etag);
+    }
 
-      String etag = response.headers()
-                            .get("etag");
-      if (etag != null) {
-        requestBuilder.header("If-None-Match", etag);
-      }
+    if (statusCode != 200) return;
 
-      if (statusCode != 200) return;
-
-      try (InputStream body = response.body()
-                                      .byteStream()) {
-        T result = jsonReader.readValue(body);
-        if (value.isEmpty() || !value.get()
-                                     .equals(result)) {
-          value = Optional.of(result);
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
+    try (InputStream body = response.body()
+                                    .byteStream()) {
+      T result = jsonReader.readValue(body);
+      if (value.isEmpty() || !value.get()
+                                   .equals(result)) {
+        value = Optional.of(result);
       }
     }
   }
@@ -158,15 +140,5 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
       ENDPOINTS.put(endpoint, value);
     }
     return (Endpoint<Map<String, T>>) value.get();
-  }
-
-  public static void setExecutor(ExecutorService executor) {
-    Objects.requireNonNull(executor);
-    EXECUTOR.shutdown();
-    EXECUTOR = executor;
-  }
-
-  public static void shutdown() {
-    EXECUTOR.shutdown();
   }
 }

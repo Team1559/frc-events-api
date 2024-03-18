@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public record MatchResultsListing(@JsonProperty("Matches") List<MatchResult> matches) {
+public record MatchResults(@JsonProperty("Matches") List<MatchResult> matches) {
   public record MatchResult(@JsonProperty("description") String name,
                             @JsonProperty("matchNumber") int number,
                             @JsonProperty("tournamentLevel") MatchLevel level,
@@ -57,7 +57,7 @@ public record MatchResultsListing(@JsonProperty("Matches") List<MatchResult> mat
     private final String value;
 
     private final boolean isRed;
-    private final int number;
+    private final int     number;
 
     AllianceStation(String value, boolean isRed, int number) {
       this.value = value;
@@ -78,22 +78,21 @@ public record MatchResultsListing(@JsonProperty("Matches") List<MatchResult> mat
     }
   }
 
-  public static Endpoint<MatchResultsListing> forAll(int year, String eventCode) {
-    return Endpoint.forSingle("/" + year + "/matches/" + eventCode, MatchResultsListing.class);
+  public static Endpoint<MatchResults> forAll(int year, String eventCode) {
+    return Endpoint.forSingle("/" + year + "/matches/" + eventCode, MatchResults.class);
   }
 
-  public static Endpoint<MatchResultsListing> forLevel(int year, String eventCode,
-                                                       MatchLevel level) {
+  public static Endpoint<MatchResults> forLevel(int year, String eventCode, MatchLevel level) {
     return forQuery(year, eventCode, new Query().withLevel(level));
   }
 
-  public static Endpoint<MatchResultsListing> forTeam(int year, String eventCode, int teamNumber) {
+  public static Endpoint<MatchResults> forTeam(int year, String eventCode, int teamNumber) {
     return forQuery(year, eventCode, new Query().withTeam(teamNumber));
   }
 
-  public static Endpoint<MatchResultsListing> forQuery(int year, String eventCode, Query query) {
+  public static Endpoint<MatchResults> forQuery(int year, String eventCode, Query query) {
     return Endpoint.forSingle("/" + year + "/matches/" + eventCode + query.build(),
-                              MatchResultsListing.class);
+                              MatchResults.class);
   }
 
   public static class Query extends QueryBuilder {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record AwardListing(@JsonProperty("Awards") List<Award> awards) {
+public record Awards(@JsonProperty("Awards") List<Award> awards) {
   public record Award(@JsonProperty int awardId,
                       @JsonProperty int teamId,
                       @JsonProperty int eventId,
@@ -17,16 +17,16 @@ public record AwardListing(@JsonProperty("Awards") List<Award> awards) {
                       @JsonProperty String fullTeamName,
                       @JsonProperty String person) {}
 
-  public static Endpoint<AwardListing> forEvent(int year, String eventCode) {
-    return Endpoint.forSingle("/" + year + "/awards/event/" + eventCode, AwardListing.class);
+  public static Endpoint<Awards> forEvent(int year, String eventCode) {
+    return Endpoint.forSingle("/" + year + "/awards/event/" + eventCode, Awards.class);
   }
 
-  public static Endpoint<AwardListing> forTeam(int year, int teamNumber) {
-    return Endpoint.forSingle("/" + year + "/awards/team/" + teamNumber, AwardListing.class);
+  public static Endpoint<Awards> forTeam(int year, int teamNumber) {
+    return Endpoint.forSingle("/" + year + "/awards/team/" + teamNumber, Awards.class);
   }
 
-  public static Endpoint<AwardListing> forEventTeam(int year, String eventCode, int teamNumber) {
+  public static Endpoint<Awards> forEventTeam(int year, String eventCode, int teamNumber) {
     return Endpoint.forSingle("/" + year + "/awards/eventteam/" + eventCode + "/" + teamNumber,
-                              AwardListing.class);
+                              Awards.class);
   }
 }

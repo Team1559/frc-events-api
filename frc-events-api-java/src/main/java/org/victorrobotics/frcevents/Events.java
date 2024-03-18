@@ -1,6 +1,6 @@
 package org.victorrobotics.frcevents;
 
-import org.victorrobotics.frcevents.EventListing.Event.TournamentType;
+import org.victorrobotics.frcevents.Events.Event.TournamentType;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -9,8 +9,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public record EventListing(@JsonProperty("Events") List<Event> events,
-                           @JsonProperty int eventCount) {
+public record Events(@JsonProperty("Events") List<Event> events,
+                     @JsonProperty int eventCount) {
   public record Event(@JsonProperty String name,
                       @JsonProperty String code,
                       @JsonProperty String divisionCode,
@@ -74,20 +74,20 @@ public record EventListing(@JsonProperty("Events") List<Event> events,
     }
   }
 
-  public static Endpoint<EventListing> forEvent(int year, String eventCode) {
-    return Endpoint.forSingle("/" + year + "/events?eventCode=" + eventCode, EventListing.class);
+  public static Endpoint<Events> forEvent(int year, String eventCode) {
+    return Endpoint.forSingle("/" + year + "/events?eventCode=" + eventCode, Events.class);
   }
 
-  public static Endpoint<EventListing> forAll(int year) {
-    return Endpoint.forSingle("/" + year + "/events", EventListing.class);
+  public static Endpoint<Events> forAll(int year) {
+    return Endpoint.forSingle("/" + year + "/events", Events.class);
   }
 
-  public static Endpoint<EventListing> forTeam(int year, int teamNumber) {
+  public static Endpoint<Events> forTeam(int year, int teamNumber) {
     return forQuery(year, new Query().withTeam(teamNumber));
   }
 
-  public static Endpoint<EventListing> forQuery(int year, Query query) {
-    return Endpoint.forSingle("/" + year + "/events" + query.build(), EventListing.class);
+  public static Endpoint<Events> forQuery(int year, Query query) {
+    return Endpoint.forSingle("/" + year + "/events" + query.build(), Events.class);
   }
 
   public static class Query extends QueryBuilder {

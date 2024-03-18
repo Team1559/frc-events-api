@@ -6,11 +6,11 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /* NOTE: pages are 1-indexed */
-public record TeamListing(@JsonProperty List<Team> teams,
-                          @JsonProperty("teamCountTotal") int queryTeamCount,
-                          @JsonProperty("teamCountPage") int pageTeamCount,
-                          @JsonProperty("pageCurrent") int currentPageNumber,
-                          @JsonProperty("pageTotal") int maxPageNumber) {
+public record Teams(@JsonProperty List<Team> teams,
+                    @JsonProperty("teamCountTotal") int queryTeamCount,
+                    @JsonProperty("teamCountPage") int pageTeamCount,
+                    @JsonProperty("pageCurrent") int currentPageNumber,
+                    @JsonProperty("pageTotal") int maxPageNumber) {
   public record Team(@JsonProperty String schoolName,
                      @JsonProperty URL website,
                      @JsonProperty String homeCMP,
@@ -24,16 +24,16 @@ public record TeamListing(@JsonProperty List<Team> teams,
                      @JsonProperty String robotName,
                      @JsonProperty String districtCode) {}
 
-  public static Endpoint<TeamListing> forTeam(int year, int teamNumber) {
-    return Endpoint.forSingle("/" + year + "/teams?teamNumber=" + teamNumber, TeamListing.class);
+  public static Endpoint<Teams> forTeam(int year, int teamNumber) {
+    return Endpoint.forSingle("/" + year + "/teams?teamNumber=" + teamNumber, Teams.class);
   }
 
-  public static Endpoint<TeamListing> forPage(int year, int pageNumber) {
+  public static Endpoint<Teams> forPage(int year, int pageNumber) {
     return forQuery(year, new Query().withPage(pageNumber));
   }
 
-  public static Endpoint<TeamListing> forQuery(int year, Query query) {
-    return Endpoint.forSingle("/" + year + "/teams" + query.build(), TeamListing.class);
+  public static Endpoint<Teams> forQuery(int year, Query query) {
+    return Endpoint.forSingle("/" + year + "/teams" + query.build(), Teams.class);
   }
 
   public static class Query extends QueryBuilder {

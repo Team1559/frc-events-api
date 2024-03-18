@@ -5,8 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record AvatarListing(@JsonProperty List<TeamAvatar> teams,
-                            @JsonProperty int teamCountTotal,
-                            @JsonProperty int teamCountPage) {
+                            @JsonProperty("teamCountTotal") int queryTeamCount,
+                            @JsonProperty("teamCountPage") int pageTeamCount) {
   public record TeamAvatar(@JsonProperty int teamNumber,
                            @JsonProperty String encodedAvatar) {}
 

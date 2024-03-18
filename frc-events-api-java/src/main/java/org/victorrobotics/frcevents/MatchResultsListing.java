@@ -12,8 +12,8 @@ public record MatchResultsListing(@JsonProperty("Matches") List<MatchResult> mat
   public record MatchResult(@JsonProperty("description") String name,
                             @JsonProperty("matchNumber") int number,
                             @JsonProperty("tournamentLevel") MatchLevel level,
-                            @JsonProperty LocalDateTime actualStartTime,
-                            @JsonProperty LocalDateTime postResultTime,
+                            @JsonProperty("actualStartTime") LocalDateTime startTime,
+                            @JsonProperty("postResultTime") LocalDateTime resultTime,
                             @JsonProperty List<MatchTeam> teams,
                             @JsonProperty Integer scoreRedFinal,
                             @JsonProperty Integer scoreRedFoul,
@@ -24,7 +24,7 @@ public record MatchResultsListing(@JsonProperty("Matches") List<MatchResult> mat
                             /* Undocumented */
                             @JsonProperty boolean isReplay,
                             @JsonProperty LocalDateTime autoStartTime,
-                            @JsonProperty URL matchVideoLink) {}
+                            @JsonProperty("matchVideoLink") URL videoUrl) {}
 
   public record MatchTeam(@JsonProperty int teamNumber,
                           @JsonProperty AllianceStation station,
@@ -46,21 +46,23 @@ public record MatchResultsListing(@JsonProperty("Matches") List<MatchResult> mat
   }
 
   public enum AllianceStation {
-    RED_1("Red1", true),
-    RED_2("Red2", true),
-    RED_3("Red3", true),
-    BLUE_1("Blue1", false),
-    BLUE_2("Blue2", false),
-    BLUE_3("Blue3", false);
+    RED_1("Red1", true, 1),
+    RED_2("Red2", true, 2),
+    RED_3("Red3", true, 3),
+    BLUE_1("Blue1", false, 1),
+    BLUE_2("Blue2", false, 2),
+    BLUE_3("Blue3", false, 3);
 
     @JsonValue
     private final String value;
 
     private final boolean isRed;
+    private final int number;
 
-    AllianceStation(String value, boolean isRed) {
+    AllianceStation(String value, boolean isRed, int number) {
       this.value = value;
       this.isRed = isRed;
+      this.number = number;
     }
 
     public boolean isRed() {
@@ -69,6 +71,10 @@ public record MatchResultsListing(@JsonProperty("Matches") List<MatchResult> mat
 
     public boolean isBlue() {
       return !isRed();
+    }
+
+    public int getNumber() {
+      return number;
     }
   }
 

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public record Events(@JsonProperty("Events") List<Event> events,
                      @JsonProperty int eventCount) {
@@ -28,26 +27,6 @@ public record Events(@JsonProperty("Events") List<Event> events,
                       @JsonProperty int weekNumber,
                       @JsonProperty List<String> announcements,
                       @JsonProperty AllianceCount allianceCount) {}
-
-  public enum AllianceCount {
-    EIGHT("EightAlliance", 8),
-    FOUR("FourAlliance", 4),
-    TWO("TwoAlliance", 2);
-
-    @JsonValue
-    private final String value;
-
-    private final int count;
-
-    AllianceCount(String value, int count) {
-      this.value = value;
-      this.count = count;
-    }
-
-    public int toInt() {
-      return count;
-    }
-  }
 
   public static Endpoint<Events> forEvent(int year, String eventCode) {
     return Endpoint.forSingle("/" + year + "/events?eventCode=" + eventCode, Events.class);

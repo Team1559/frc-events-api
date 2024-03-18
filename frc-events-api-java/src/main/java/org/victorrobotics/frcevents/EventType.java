@@ -18,7 +18,7 @@ public enum EventType {
   CHAMPIONSHIP_DIVISION("ChampionshipDivision");
 
   @JsonValue
-  private final String value;
+  final String value;
 
   EventType(String value) {
     this.value = value;

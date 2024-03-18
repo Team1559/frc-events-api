@@ -72,25 +72,20 @@ public record EventListing(@JsonProperty("Events") List<Event> events,
     }
   }
 
-  private static String eventsPath(int year) {
-    return "/" + year + "/events";
+  public static Endpoint<EventListing> forEvent(int year, String eventCode) {
+    return Endpoint.forSingle("/" + year + "/events?eventCode=" + eventCode, EventListing.class);
   }
 
   public static Endpoint<EventListing> forAll(int year) {
-    return Endpoint.forSingle(eventsPath(year), EventListing.class);
+    return Endpoint.forSingle("/" + year + "/events", EventListing.class);
   }
 
-  public static Endpoint<EventListing> forEvent(int year, String eventCode) {
-    return Endpoint.forSingle(eventsPath(year) + "?eventCode=" + eventCode, EventListing.class);
-  }
-
-  /* NOTE: this query appears to be broken */
   public static Endpoint<EventListing> forTeam(int year, int teamNumber) {
-    return Endpoint.forSingle(eventsPath(year) + "?teamNumber=" + teamNumber, EventListing.class);
+    return forQuery(year, new Query().withTeam(teamNumber));
   }
 
   public static Endpoint<EventListing> forQuery(int year, Query query) {
-    return Endpoint.forSingle(eventsPath(year) + query.build(), EventListing.class);
+    return Endpoint.forSingle("/" + year + "/events" + query.build(), EventListing.class);
   }
 
   public static class Query extends QueryBuilder {

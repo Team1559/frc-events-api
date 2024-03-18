@@ -4,9 +4,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 public record MatchResults(@JsonProperty("Matches") List<MatchResult> matches) {
   public record MatchResult(@JsonProperty("description") String name,
@@ -25,58 +23,6 @@ public record MatchResults(@JsonProperty("Matches") List<MatchResult> matches) {
                             @JsonProperty boolean isReplay,
                             @JsonProperty LocalDateTime autoStartTime,
                             @JsonProperty("matchVideoLink") URL videoUrl) {}
-
-  public record MatchTeam(@JsonProperty int teamNumber,
-                          @JsonProperty AllianceStation station,
-                          @JsonProperty("dq") boolean disqualified) {}
-
-  public enum MatchLevel {
-    QUALIFICATION("Qualification"),
-    PLAYOFF("Playoff"),
-
-    @JsonEnumDefaultValue
-    NONE("None");
-
-    @JsonValue
-    private final String value;
-
-    MatchLevel(String value) {
-      this.value = value;
-    }
-  }
-
-  public enum AllianceStation {
-    RED_1("Red1", true, 1),
-    RED_2("Red2", true, 2),
-    RED_3("Red3", true, 3),
-    BLUE_1("Blue1", false, 1),
-    BLUE_2("Blue2", false, 2),
-    BLUE_3("Blue3", false, 3);
-
-    @JsonValue
-    private final String value;
-
-    private final boolean isRed;
-    private final int     number;
-
-    AllianceStation(String value, boolean isRed, int number) {
-      this.value = value;
-      this.isRed = isRed;
-      this.number = number;
-    }
-
-    public boolean isRed() {
-      return isRed;
-    }
-
-    public boolean isBlue() {
-      return !isRed();
-    }
-
-    public int getNumber() {
-      return number;
-    }
-  }
 
   public static Endpoint<MatchResults> forAll(int year, String eventCode) {
     return Endpoint.forSingle("/" + year + "/matches/" + eventCode, MatchResults.class);

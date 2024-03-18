@@ -1,7 +1,5 @@
 package org.victorrobotics.frcevents;
 
-import org.victorrobotics.frcevents.Events.Event.TournamentType;
-
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +13,7 @@ public record Events(@JsonProperty("Events") List<Event> events,
                       @JsonProperty String code,
                       @JsonProperty String divisionCode,
                       @JsonProperty String districtCode,
-                      @JsonProperty TournamentType type,
+                      @JsonProperty EventType type,
                       @JsonProperty("venue") String locationName,
                       @JsonProperty String address,
                       @JsonProperty String city,
@@ -29,48 +27,25 @@ public record Events(@JsonProperty("Events") List<Event> events,
                       /* Undocumented */
                       @JsonProperty int weekNumber,
                       @JsonProperty List<String> announcements,
-                      @JsonProperty AllianceCount allianceCount) {
-    public enum TournamentType {
-      REGIONAL("Regional"),
+                      @JsonProperty AllianceCount allianceCount) {}
 
-      OFF_SEASON("OffSeason"),
-      OFF_SEASON_SYNC("OffSeasonWithAzureSync"),
+  public enum AllianceCount {
+    EIGHT("EightAlliance", 8),
+    FOUR("FourAlliance", 4),
+    TWO("TwoAlliance", 2);
 
-      REMOTE("Remote"),
+    @JsonValue
+    private final String value;
 
-      DISTRICT_EVENT("DistrictEvent"),
-      DISTRICT_CHAMPIONSHIP("DistrictChampionship"),
-      DISTRICT_CHAMPIONSHIP_WITH_LEVELS("DistrictChampionshipWithLevels"),
-      DISTRICT_CHAMPIONSHIP_DIVISION("DistrictChampionshipDivision"),
+    private final int count;
 
-      CHAMPIONSHIP_DIVISION("ChampionshipDivision");
-
-      @JsonValue
-      private final String value;
-
-      TournamentType(String value) {
-        this.value = value;
-      }
+    AllianceCount(String value, int count) {
+      this.value = value;
+      this.count = count;
     }
 
-    public enum AllianceCount {
-      EIGHT("EightAlliance", 8),
-      FOUR("FourAlliance", 4),
-      TWO("TwoAlliance", 2);
-
-      @JsonValue
-      private final String value;
-
-      private final int count;
-
-      AllianceCount(String value, int count) {
-        this.value = value;
-        this.count = count;
-      }
-
-      public int toInt() {
-        return count;
-      }
+    public int toInt() {
+      return count;
     }
   }
 
@@ -112,7 +87,7 @@ public record Events(@JsonProperty("Events") List<Event> events,
       return this;
     }
 
-    public Query withType(TournamentType type) {
+    public Query withType(EventType type) {
       putParam("tournamentType", type);
       return this;
     }

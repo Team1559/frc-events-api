@@ -26,7 +26,7 @@ public record EventListing(@JsonProperty("Events") List<Event> events,
                       @JsonProperty String timezone,
                       @JsonProperty URL website,
                       @JsonProperty List<URL> webcasts,
-                      /* Not officially posted in the API */
+                      /* Undocumented */
                       @JsonProperty int weekNumber,
                       @JsonProperty List<String> announcements,
                       @JsonProperty AllianceCount allianceCount) {

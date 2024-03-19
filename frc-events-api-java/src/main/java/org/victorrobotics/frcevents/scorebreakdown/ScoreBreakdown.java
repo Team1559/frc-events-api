@@ -12,9 +12,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 public sealed interface ScoreBreakdown<A extends ScoreBreakdown.Alliance>
-    permits ChargedUp2023Breakdown, Crescendo2024Breakdown {
+    permits RapidReact2022Breakdown, ChargedUp2023Breakdown, Crescendo2024Breakdown {
   sealed interface Alliance
-      permits ChargedUp2023Breakdown.Alliance, Crescendo2024Breakdown.Alliance {
+      permits RapidReact2022Breakdown.Alliance, ChargedUp2023Breakdown.Alliance,
+      Crescendo2024Breakdown.Alliance {
     AllianceColor alliance();
   }
 

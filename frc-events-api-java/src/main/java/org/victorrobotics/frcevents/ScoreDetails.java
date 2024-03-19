@@ -2,6 +2,7 @@ package org.victorrobotics.frcevents;
 
 import org.victorrobotics.frcevents.scorebreakdown.ChargedUp2023Breakdown;
 import org.victorrobotics.frcevents.scorebreakdown.Crescendo2024Breakdown;
+import org.victorrobotics.frcevents.scorebreakdown.RapidReact2022Breakdown;
 import org.victorrobotics.frcevents.scorebreakdown.ScoreBreakdown;
 
 import java.util.List;
@@ -10,6 +11,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public record ScoreDetails<B extends ScoreBreakdown<?>>(@JsonProperty("MatchScores") List<B> scores) {
+  public static final class RapidReact2022 {
+    private static final TypeReference<ScoreDetails<RapidReact2022Breakdown>> RAPID_REACT_2022 =
+        new TypeReference<ScoreDetails<RapidReact2022Breakdown>>() {};
+
+    private RapidReact2022() {}
+
+    public static Endpoint<ScoreDetails<RapidReact2022Breakdown>> forAll(String eventCode,
+                                                                         MatchLevel level) {
+      return ScoreDetails.forAll(eventCode, level, 2022, RAPID_REACT_2022);
+    }
+
+    public static Endpoint<ScoreDetails<RapidReact2022Breakdown>>
+        forMatch(String eventCode, MatchLevel level, int matchNumber) {
+      return ScoreDetails.forMatch(eventCode, level, matchNumber, 2022, RAPID_REACT_2022);
+    }
+
+    public static Endpoint<ScoreDetails<RapidReact2022Breakdown>>
+        forQuery(String eventCode, MatchLevel level, Query query) {
+      return ScoreDetails.forQuery(eventCode, level, query, 2022, RAPID_REACT_2022);
+    }
+  }
+
   public static final class ChargedUp2023 {
     private static final TypeReference<ScoreDetails<ChargedUp2023Breakdown>> CHARGED_UP_2023 =
         new TypeReference<ScoreDetails<ChargedUp2023Breakdown>>() {};

@@ -1,6 +1,5 @@
 package org.victorrobotics.frcevents.scorebreakdown;
 
-import org.victorrobotics.frcevents.Deserializers.YesNoDeserializer;
 import org.victorrobotics.frcevents.MatchLevel;
 
 import java.util.List;
@@ -22,14 +21,14 @@ public record Crescendo2024Breakdown(/* Required properties */
                                      @JsonProperty int ensembleBonusOnStageRobotsThreshold)
     implements ScoreBreakdown<Crescendo2024Breakdown.Alliance> {
   public record Alliance(@JsonProperty AllianceColor alliance,
-                         @JsonProperty
-                         @JsonDeserialize(using = YesNoDeserializer.class) boolean autoLineRobot1,
+                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonProperty boolean autoLineRobot1,
                          @JsonProperty EndGameState endGameRobot1,
-                         @JsonProperty
-                         @JsonDeserialize(using = YesNoDeserializer.class) boolean autoLineRobot2,
+                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonProperty boolean autoLineRobot2,
                          @JsonProperty EndGameState endGameRobot2,
-                         @JsonProperty
-                         @JsonDeserialize(using = YesNoDeserializer.class) boolean autoLineRobot3,
+                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonProperty boolean autoLineRobot3,
                          @JsonProperty EndGameState endGameRobot3,
                          @JsonProperty int autoAmpNoteCount,
                          @JsonProperty int autoSpeakerNoteCount,

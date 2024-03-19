@@ -2,13 +2,19 @@ package org.victorrobotics.frcevents.scorebreakdown;
 
 import org.victorrobotics.frcevents.MatchLevel;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 public sealed interface ScoreBreakdown<A extends ScoreBreakdown.Alliance>
-    permits Crescendo2024Breakdown {
-  sealed interface Alliance permits Crescendo2024Breakdown.Alliance {
+    permits ChargedUp2023Breakdown, Crescendo2024Breakdown {
+  sealed interface Alliance
+      permits ChargedUp2023Breakdown.Alliance, Crescendo2024Breakdown.Alliance {
     AllianceColor alliance();
   }
 
@@ -47,5 +53,29 @@ public sealed interface ScoreBreakdown<A extends ScoreBreakdown.Alliance>
     }
 
     return null;
+  }
+
+  class YesNoDeserializer extends StdDeserializer<Boolean> {
+    public YesNoDeserializer() {
+      this(null);
+    }
+
+    public YesNoDeserializer(Class<?> vc) {
+      super(vc);
+    }
+
+    @Override
+    public Boolean deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+      JsonNode node = jp.getCodec()
+                        .readTree(jp);
+      String str = node.textValue();
+      if ("Yes".equals(str)) {
+        return Boolean.TRUE;
+      } else if ("No".equals(str)) {
+        return Boolean.FALSE;
+      } else {
+        return null;
+      }
+    }
   }
 }

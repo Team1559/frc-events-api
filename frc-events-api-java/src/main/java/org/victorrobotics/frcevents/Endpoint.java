@@ -11,10 +11,16 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.StreamReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -47,12 +53,18 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
 
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
 
-  static final ObjectMapper JSON_OBJECT_MAPPER =
-      new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                        .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
-                        .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
-                        .registerModule(new JavaTimeModule())
-                        .registerModule(Deserializers.module());
+  private static final JsonMapper JSON_OBJECT_MAPPER;
+  static {
+    JSON_OBJECT_MAPPER = JsonMapper.builder()
+                                   .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                                   .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
+                                   .enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
+                                   .enable(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION)
+                                   .addModule(new JavaTimeModule())
+                                   .addModule(new SimpleModule().addDeserializer(URL.class,
+                                                                                 new UrlDeserializer()))
+                                   .build();
+  }
 
   private final Request.Builder requestBuilder;
   private final ObjectReader    jsonReader;
@@ -128,5 +140,26 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
       ENDPOINTS.put(endpoint, value);
     }
     return (Endpoint<T>) value.get();
+  }
+
+  static class UrlDeserializer extends StdDeserializer<URL> {
+    public UrlDeserializer() {
+      this(null);
+    }
+
+    public UrlDeserializer(Class<?> vc) {
+      super(vc);
+    }
+
+    @Override
+    public URL deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+      JsonNode node = jp.getCodec()
+                        .readTree(jp);
+      String str = node.textValue();
+      if (str == null || !str.startsWith("http")) {
+        return null;
+      }
+      return new URL(str);
+    }
   }
 }

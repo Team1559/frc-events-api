@@ -1,14 +1,38 @@
 package org.victorrobotics.frcevents;
 
+import org.victorrobotics.frcevents.scorebreakdown.ChargedUp2023Breakdown;
 import org.victorrobotics.frcevents.scorebreakdown.Crescendo2024Breakdown;
 import org.victorrobotics.frcevents.scorebreakdown.ScoreBreakdown;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public record ScoreDetails<B extends ScoreBreakdown<?>>(@JsonProperty("MatchScores") List<B> scores) {
+  public static final class ChargedUp2023 {
+    private static final TypeReference<ScoreDetails<ChargedUp2023Breakdown>> CHARGED_UP_2023 =
+        new TypeReference<ScoreDetails<ChargedUp2023Breakdown>>() {};
+
+    private ChargedUp2023() {}
+
+    public static Endpoint<ScoreDetails<ChargedUp2023Breakdown>> forAll(String eventCode,
+                                                                        MatchLevel level) {
+      return ScoreDetails.forAll(eventCode, level, 2023, CHARGED_UP_2023);
+    }
+
+    public static Endpoint<ScoreDetails<ChargedUp2023Breakdown>>
+        forMatch(String eventCode, MatchLevel level, int matchNumber) {
+      return ScoreDetails.forMatch(eventCode, level, matchNumber, 2023, CHARGED_UP_2023);
+    }
+
+    public static Endpoint<ScoreDetails<ChargedUp2023Breakdown>>
+        forQuery(String eventCode, MatchLevel level, Query query) {
+      return ScoreDetails.forQuery(eventCode, level, query, 2023, CHARGED_UP_2023);
+    }
+  }
+
   public static final class Crescendo2024 {
     private static final TypeReference<ScoreDetails<Crescendo2024Breakdown>> CRESCENDO_2024 =
         new TypeReference<ScoreDetails<Crescendo2024Breakdown>>() {};

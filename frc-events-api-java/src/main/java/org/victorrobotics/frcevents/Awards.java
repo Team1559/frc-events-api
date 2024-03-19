@@ -18,15 +18,15 @@ public record Awards(@JsonProperty("Awards") List<Award> awards) {
                       @JsonProperty String person) {}
 
   public static Endpoint<Awards> forEvent(int year, String eventCode) {
-    return Endpoint.forSingle("/" + year + "/awards/event/" + eventCode, Awards.class);
+    return Endpoint.of("/" + year + "/awards/event/" + eventCode, Awards.class);
   }
 
   public static Endpoint<Awards> forTeam(int year, int teamNumber) {
-    return Endpoint.forSingle("/" + year + "/awards/team/" + teamNumber, Awards.class);
+    return Endpoint.of("/" + year + "/awards/team/" + teamNumber, Awards.class);
   }
 
   public static Endpoint<Awards> forEventTeam(int year, String eventCode, int teamNumber) {
-    return Endpoint.forSingle("/" + year + "/awards/eventteam/" + eventCode + "/" + teamNumber,
-                              Awards.class);
+    return Endpoint.of("/" + year + "/awards/eventteam/" + eventCode + "/" + teamNumber,
+                       Awards.class);
   }
 }

@@ -17,6 +17,6 @@ public record Alliances(@JsonProperty("Alliances") List<Alliance> alliances,
                          @JsonProperty Object backupReplaced) {}
 
   public static Endpoint<Alliances> forEvent(int year, String eventCode) {
-    return Endpoint.forSingle("/" + year + "/alliances/" + eventCode, Alliances.class);
+    return Endpoint.of("/" + year + "/alliances/" + eventCode, Alliances.class);
   }
 }

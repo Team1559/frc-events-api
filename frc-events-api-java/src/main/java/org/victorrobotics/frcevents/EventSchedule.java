@@ -34,8 +34,7 @@ public record EventSchedule(@JsonProperty("Schedule") List<Match> matches) {
   }
 
   public static Endpoint<EventSchedule> forQuery(int year, String eventCode, Query query) {
-    return Endpoint.forSingle("/" + year + "/schedule/" + eventCode + query.build(),
-                              EventSchedule.class);
+    return Endpoint.of("/" + year + "/schedule/" + eventCode + query.build(), EventSchedule.class);
   }
 
   public static class Query extends QueryBuilder {

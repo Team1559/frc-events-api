@@ -11,7 +11,7 @@ public record Avatars(@JsonProperty List<TeamAvatar> teams,
                            @JsonProperty String encodedAvatar) {}
 
   public static Endpoint<Avatars> forTeam(int year, int teamNumber) {
-    return Endpoint.forSingle("/" + year + "/avatars?teamNumber=" + teamNumber, Avatars.class);
+    return Endpoint.of("/" + year + "/avatars?teamNumber=" + teamNumber, Avatars.class);
   }
 
   public static Endpoint<Avatars> forAll(int year, int pageNumber) {
@@ -19,7 +19,7 @@ public record Avatars(@JsonProperty List<TeamAvatar> teams,
   }
 
   public static Endpoint<Avatars> forQuery(int year, Query query) {
-    return Endpoint.forSingle("/" + year + "/avatars" + query.build(), Avatars.class);
+    return Endpoint.of("/" + year + "/avatars" + query.build(), Avatars.class);
   }
 
   public static class Query extends QueryBuilder {

@@ -25,7 +25,7 @@ public record MatchResults(@JsonProperty("Matches") List<MatchResult> matches) {
                             @JsonProperty("matchVideoLink") URL videoUrl) {}
 
   public static Endpoint<MatchResults> forAll(int year, String eventCode) {
-    return Endpoint.forSingle("/" + year + "/matches/" + eventCode, MatchResults.class);
+    return Endpoint.of("/" + year + "/matches/" + eventCode, MatchResults.class);
   }
 
   public static Endpoint<MatchResults> forLevel(int year, String eventCode, MatchLevel level) {
@@ -37,8 +37,7 @@ public record MatchResults(@JsonProperty("Matches") List<MatchResult> matches) {
   }
 
   public static Endpoint<MatchResults> forQuery(int year, String eventCode, Query query) {
-    return Endpoint.forSingle("/" + year + "/matches/" + eventCode + query.build(),
-                              MatchResults.class);
+    return Endpoint.of("/" + year + "/matches/" + eventCode + query.build(), MatchResults.class);
   }
 
   public static class Query extends QueryBuilder {

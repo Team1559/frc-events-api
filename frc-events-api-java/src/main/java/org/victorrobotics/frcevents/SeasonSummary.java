@@ -16,6 +16,6 @@ public record SeasonSummary(@JsonProperty int eventCount,
                              @JsonProperty String location) {}
 
   public static Endpoint<SeasonSummary> endpoint(int year) {
-    return Endpoint.forSingle("/" + year, SeasonSummary.class);
+    return Endpoint.of("/" + year, SeasonSummary.class);
   }
 }

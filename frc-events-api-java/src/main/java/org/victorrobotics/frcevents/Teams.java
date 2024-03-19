@@ -25,7 +25,7 @@ public record Teams(@JsonProperty List<Team> teams,
                      @JsonProperty String districtCode) {}
 
   public static Endpoint<Teams> forTeam(int year, int teamNumber) {
-    return Endpoint.forSingle("/" + year + "/teams?teamNumber=" + teamNumber, Teams.class);
+    return Endpoint.of("/" + year + "/teams?teamNumber=" + teamNumber, Teams.class);
   }
 
   public static Endpoint<Teams> forPage(int year, int pageNumber) {
@@ -33,7 +33,7 @@ public record Teams(@JsonProperty List<Team> teams,
   }
 
   public static Endpoint<Teams> forQuery(int year, Query query) {
-    return Endpoint.forSingle("/" + year + "/teams" + query.build(), Teams.class);
+    return Endpoint.of("/" + year + "/teams" + query.build(), Teams.class);
   }
 
   public static class Query extends QueryBuilder {

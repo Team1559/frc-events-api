@@ -29,11 +29,11 @@ public record Events(@JsonProperty("Events") List<Event> events,
                       @JsonProperty AllianceCount allianceCount) {}
 
   public static Endpoint<Events> forEvent(int year, String eventCode) {
-    return Endpoint.forSingle("/" + year + "/events?eventCode=" + eventCode, Events.class);
+    return Endpoint.of("/" + year + "/events?eventCode=" + eventCode, Events.class);
   }
 
   public static Endpoint<Events> forAll(int year) {
-    return Endpoint.forSingle("/" + year + "/events", Events.class);
+    return Endpoint.of("/" + year + "/events", Events.class);
   }
 
   public static Endpoint<Events> forTeam(int year, int teamNumber) {
@@ -41,7 +41,7 @@ public record Events(@JsonProperty("Events") List<Event> events,
   }
 
   public static Endpoint<Events> forQuery(int year, Query query) {
-    return Endpoint.forSingle("/" + year + "/events" + query.build(), Events.class);
+    return Endpoint.of("/" + year + "/events" + query.build(), Events.class);
   }
 
   public static class Query extends QueryBuilder {

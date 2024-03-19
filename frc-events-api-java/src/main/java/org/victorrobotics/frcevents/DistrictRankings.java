@@ -29,21 +29,20 @@ public record DistrictRankings(@JsonProperty("districtRanks") List<DistrictRanki
   }
 
   public static Endpoint<DistrictRankings> forTeam(int year, int teamNumber) {
-    return Endpoint.forSingle("/" + year + "/rankings/district?teamNumber=" + teamNumber,
-                              DistrictRankings.class);
+    return Endpoint.of("/" + year + "/rankings/district?teamNumber=" + teamNumber,
+                       DistrictRankings.class);
   }
 
   public static Endpoint<DistrictRankings> forAll(int year, String districtCode) {
-    return Endpoint.forSingle(basePath(year, districtCode), DistrictRankings.class);
+    return Endpoint.of(basePath(year, districtCode), DistrictRankings.class);
   }
 
   public static Endpoint<DistrictRankings> forTop(int year, String districtCode, int count) {
-    return Endpoint.forSingle(basePath(year, districtCode) + "&top=" + count,
-                              DistrictRankings.class);
+    return Endpoint.of(basePath(year, districtCode) + "&top=" + count, DistrictRankings.class);
   }
 
   public static Endpoint<DistrictRankings> forPage(int year, String districtCode, int pageNumber) {
-    return Endpoint.forSingle(basePath(year, districtCode) + "&page=" + pageNumber,
-                              DistrictRankings.class);
+    return Endpoint.of(basePath(year, districtCode) + "&page=" + pageNumber,
+                       DistrictRankings.class);
   }
 }

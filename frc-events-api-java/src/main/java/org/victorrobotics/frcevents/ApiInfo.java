@@ -20,6 +20,6 @@ public record ApiInfo(@JsonProperty int currentSeason,
   }
 
   public static Endpoint<ApiInfo> endpoint() {
-    return Endpoint.forSingle("/", ApiInfo.class);
+    return Endpoint.of("/", ApiInfo.class);
   }
 }

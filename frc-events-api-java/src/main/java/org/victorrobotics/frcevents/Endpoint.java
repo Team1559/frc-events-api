@@ -7,11 +7,11 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -79,11 +79,11 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
     return value;
   }
 
-  public Optional<T> refresh() {
+  public Optional<T> refresh() throws IOException {
     Call call = HTTP_CLIENT.newCall(requestBuilder.build());
     try (Response response = call.execute()) {
       update(response);
-    } catch (IOException e) {}
+    }
 
     return get();
   }
@@ -111,7 +111,7 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
   }
 
   @SuppressWarnings("unchecked")
-  static <T> Endpoint<T> forSingle(String endpoint, Class<T> clazz) {
+  static <T> Endpoint<T> of(String endpoint, Class<T> clazz) {
     WeakReference<Endpoint<?>> value = ENDPOINTS.get(endpoint);
     if (value == null || value.get() == null) {
       value = new WeakReference<>(new Endpoint<>(endpoint, JSON_OBJECT_MAPPER.readerFor(clazz)));
@@ -121,24 +121,12 @@ public final class Endpoint<T> implements Supplier<Optional<T>> {
   }
 
   @SuppressWarnings("unchecked")
-  static <T> Endpoint<List<T>> forList(String endpoint, Class<T> clazz) {
+  static <T> Endpoint<T> of(String endpoint, TypeReference<T> type) {
     WeakReference<Endpoint<?>> value = ENDPOINTS.get(endpoint);
     if (value == null || value.get() == null) {
-      value =
-          new WeakReference<>(new Endpoint<>(endpoint, JSON_OBJECT_MAPPER.readerForListOf(clazz)));
+      value = new WeakReference<>(new Endpoint<>(endpoint, JSON_OBJECT_MAPPER.readerFor(type)));
       ENDPOINTS.put(endpoint, value);
     }
-    return (Endpoint<List<T>>) value.get();
-  }
-
-  @SuppressWarnings("unchecked")
-  static <T> Endpoint<Map<String, T>> forMap(String endpoint, Class<T> clazz) {
-    WeakReference<Endpoint<?>> value = ENDPOINTS.get(endpoint);
-    if (value == null || value.get() == null) {
-      value =
-          new WeakReference<>(new Endpoint<>(endpoint, JSON_OBJECT_MAPPER.readerForMapOf(clazz)));
-      ENDPOINTS.put(endpoint, value);
-    }
-    return (Endpoint<Map<String, T>>) value.get();
+    return (Endpoint<T>) value.get();
   }
 }

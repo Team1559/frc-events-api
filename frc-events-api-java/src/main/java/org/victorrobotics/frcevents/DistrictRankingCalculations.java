@@ -26,15 +26,15 @@ public final class DistrictRankingCalculations {
 
   public static Endpoint<Integer> qualsPerformancePoints(int year, EventType type,
                                                          int qualificationRank, int teamCount) {
-    return Endpoint.forSingle("/" + year + "/rankings/district/qualPerformanceCalculation?type="
+    return Endpoint.of("/" + year + "/rankings/district/qualPerformanceCalculation?type="
         + type.value + "&qualificationRank=" + qualificationRank + "&teamsAtEvent=" + teamCount,
-                              Integer.class);
+                       Integer.class);
   }
 
   public static Endpoint<Integer> allianceSelectionPoints(int year, EventType type,
                                                           AllianceCount allianceCount,
                                                           int allianceNumber, AllianceRole role) {
-    return Endpoint.forSingle("/" + year
+    return Endpoint.of("/" + year
         + "/rankings/district/allianceSelectionCalculation?tournamentType=" + type.value
         + "&sizeType=" + allianceCount.value + "&allianceNumber=" + allianceNumber
         + "&allianceRole=" + role.value, Integer.class);
@@ -43,7 +43,7 @@ public final class DistrictRankingCalculations {
   public static Endpoint<Integer> playoffAdvancementPoints(int year, EventType type,
                                                            int quarterfinalWins, int semifinalWins,
                                                            int finalWins) {
-    return Endpoint.forSingle("/" + year
+    return Endpoint.of("/" + year
         + "/rankings/district/playoffAdvancementCalculation?tournamentType=" + type.value
         + "&quarterFinalWins=" + quarterfinalWins + "&semiFinalWins=" + semifinalWins
         + "&finalWins=" + finalWins, Integer.class);

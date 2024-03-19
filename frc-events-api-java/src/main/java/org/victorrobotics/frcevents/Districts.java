@@ -10,6 +10,6 @@ public record Districts(@JsonProperty List<District> districts,
                          @JsonProperty String name) {}
 
   public static Endpoint<Districts> forAll(int year) {
-    return Endpoint.forSingle("/" + year + "/districts", Districts.class);
+    return Endpoint.of("/" + year + "/districts", Districts.class);
   }
 }

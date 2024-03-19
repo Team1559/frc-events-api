@@ -25,15 +25,15 @@ public record EventRankings(@JsonProperty("Rankings") List<EventRanking> ranking
   }
 
   public static Endpoint<EventRankings> forAll(int year, String eventCode) {
-    return Endpoint.forSingle(basePath(year, eventCode), EventRankings.class);
+    return Endpoint.of(basePath(year, eventCode), EventRankings.class);
   }
 
   public static Endpoint<EventRankings> forTeam(int year, String eventCode, int teamNumber) {
-    return Endpoint.forSingle(basePath(year, eventCode) + "?teamNumber=" + teamNumber,
-                              EventRankings.class);
+    return Endpoint.of(basePath(year, eventCode) + "?teamNumber=" + teamNumber,
+                       EventRankings.class);
   }
 
   public static Endpoint<EventRankings> forTop(int year, String eventCode, int count) {
-    return Endpoint.forSingle(basePath(year, eventCode) + "?top=" + count, EventRankings.class);
+    return Endpoint.of(basePath(year, eventCode) + "?top=" + count, EventRankings.class);
   }
 }

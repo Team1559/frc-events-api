@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-final class Deserializers {
+public final class Deserializers {
   private Deserializers() {}
 
   static SimpleModule module() {
@@ -36,6 +36,30 @@ final class Deserializers {
         return null;
       }
       return new URL(str);
+    }
+  }
+
+  public static class YesNoDeserializer extends StdDeserializer<Boolean> {
+    public YesNoDeserializer() {
+      this(null);
+    }
+
+    public YesNoDeserializer(Class<?> vc) {
+      super(vc);
+    }
+
+    @Override
+    public Boolean deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+      JsonNode node = jp.getCodec()
+                        .readTree(jp);
+      String str = node.textValue();
+      if ("Yes".equals(str)) {
+        return Boolean.TRUE;
+      } else if ("No".equals(str)) {
+        return Boolean.FALSE;
+      } else {
+        return null;
+      }
     }
   }
 }

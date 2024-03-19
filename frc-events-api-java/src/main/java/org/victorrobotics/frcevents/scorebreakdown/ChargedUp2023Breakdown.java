@@ -87,7 +87,7 @@ public record ChargedUp2023Breakdown(@JsonProperty List<Alliance> alliances,
 
   public enum Row {
     BOTTOM("Bottom"),
-    MIDDLE("Middle"),
+    MIDDLE("Mid"),
     TOP("Top");
 
     @JsonValue

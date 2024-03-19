@@ -4,7 +4,6 @@ import org.victorrobotics.frcevents.scorebreakdown.ChargedUp2023Breakdown;
 import org.victorrobotics.frcevents.scorebreakdown.Crescendo2024Breakdown;
 import org.victorrobotics.frcevents.scorebreakdown.ScoreBreakdown;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

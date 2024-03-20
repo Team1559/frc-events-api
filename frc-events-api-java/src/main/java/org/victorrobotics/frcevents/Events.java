@@ -12,7 +12,7 @@ public record Events(@JsonProperty("Events") List<Event> events,
                       @JsonProperty String code,
                       @JsonProperty String divisionCode,
                       @JsonProperty String districtCode,
-                      @JsonProperty EventType type,
+                      @JsonProperty TournamentType type,
                       @JsonProperty String venue,
                       @JsonProperty String address,
                       @JsonProperty String city,
@@ -45,7 +45,6 @@ public record Events(@JsonProperty("Events") List<Event> events,
   }
 
   public static class Query extends QueryBuilder {
-    /* NOTE: this query appears to be broken */
     public Query withTeam(int teamNumber) {
       putParam("teamNumber", teamNumber);
       return this;
@@ -66,8 +65,8 @@ public record Events(@JsonProperty("Events") List<Event> events,
       return this;
     }
 
-    public Query withType(EventType type) {
-      putParam("tournamentType", type);
+    public Query withType(TournamentType type) {
+      putParam("tournamentType", type.value);
       return this;
     }
   }

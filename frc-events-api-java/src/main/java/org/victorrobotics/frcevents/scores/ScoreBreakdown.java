@@ -1,4 +1,4 @@
-package org.victorrobotics.frcevents.scorebreakdown;
+package org.victorrobotics.frcevents.scores;
 
 import org.victorrobotics.frcevents.TournamentLevel;
 

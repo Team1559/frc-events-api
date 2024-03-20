@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/* NOTE: pages are 1-indexed */
 public record Teams(@JsonProperty List<Team> teams,
                     @JsonProperty("teamCountTotal") int queryTeamCount,
                     @JsonProperty("teamCountPage") int pageTeamCount,

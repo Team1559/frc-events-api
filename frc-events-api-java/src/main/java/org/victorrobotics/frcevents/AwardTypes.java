@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record AwardTypes(@JsonProperty List<AwardType> awards) {
   public record AwardType(@JsonProperty int awardId,
-                          @JsonProperty EventType eventType,
+                          @JsonProperty TournamentType eventType,
                           @JsonProperty String description,
                           @JsonProperty("forPerson") boolean isForPerson) {}
 }

@@ -1,9 +1,9 @@
 package org.victorrobotics.frcevents;
 
-import org.victorrobotics.frcevents.scorebreakdown.ChargedUp2023Breakdown;
-import org.victorrobotics.frcevents.scorebreakdown.Crescendo2024Breakdown;
-import org.victorrobotics.frcevents.scorebreakdown.RapidReact2022Breakdown;
-import org.victorrobotics.frcevents.scorebreakdown.ScoreBreakdown;
+import org.victorrobotics.frcevents.scores.ChargedUp2023Breakdown;
+import org.victorrobotics.frcevents.scores.Crescendo2024Breakdown;
+import org.victorrobotics.frcevents.scores.RapidReact2022Breakdown;
+import org.victorrobotics.frcevents.scores.ScoreBreakdown;
 
 import java.util.List;
 

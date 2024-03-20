@@ -1,4 +1,4 @@
-package org.victorrobotics.frcevents.scorebreakdown;
+package org.victorrobotics.frcevents.scores;
 
 import org.victorrobotics.frcevents.TournamentLevel;
 
@@ -8,8 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-public record Crescendo2024Breakdown(/* Required properties */
-                                     @JsonProperty List<Alliance> alliances,
+public record Crescendo2024Breakdown(@JsonProperty List<Alliance> alliances,
                                      @JsonProperty TournamentLevel matchLevel,
                                      @JsonProperty int matchNumber,
                                      /* Year-specific properties */

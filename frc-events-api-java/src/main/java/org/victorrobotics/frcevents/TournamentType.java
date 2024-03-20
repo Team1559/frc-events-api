@@ -2,7 +2,7 @@ package org.victorrobotics.frcevents;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum EventType {
+public enum TournamentType {
   REGIONAL("Regional"),
 
   OFF_SEASON("OffSeason"),
@@ -20,7 +20,7 @@ public enum EventType {
   @JsonValue
   final String value;
 
-  EventType(String value) {
+  TournamentType(String value) {
     this.value = value;
   }
 }

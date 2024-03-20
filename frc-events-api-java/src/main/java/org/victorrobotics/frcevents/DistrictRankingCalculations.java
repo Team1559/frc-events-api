@@ -24,14 +24,14 @@ public final class DistrictRankingCalculations {
     }
   }
 
-  public static Endpoint<Integer> qualsPerformancePoints(int year, EventType type,
+  public static Endpoint<Integer> qualsPerformancePoints(int year, TournamentType type,
                                                          int qualificationRank, int teamCount) {
     return Endpoint.of("/" + year + "/rankings/district/qualPerformanceCalculation?type="
         + type.value + "&qualificationRank=" + qualificationRank + "&teamsAtEvent=" + teamCount,
                        Integer.class);
   }
 
-  public static Endpoint<Integer> allianceSelectionPoints(int year, EventType type,
+  public static Endpoint<Integer> allianceSelectionPoints(int year, TournamentType type,
                                                           AllianceCount allianceCount,
                                                           int allianceNumber, AllianceRole role) {
     return Endpoint.of("/" + year
@@ -40,7 +40,7 @@ public final class DistrictRankingCalculations {
         + "&allianceRole=" + role.value, Integer.class);
   }
 
-  public static Endpoint<Integer> playoffAdvancementPoints(int year, EventType type,
+  public static Endpoint<Integer> playoffAdvancementPoints(int year, TournamentType type,
                                                            int quarterfinalWins, int semifinalWins,
                                                            int finalWins) {
     return Endpoint.of("/" + year

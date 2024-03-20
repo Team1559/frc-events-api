@@ -6,12 +6,12 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public record EventSchedule(@JsonProperty("Schedule") List<Match> matches) {
-  public record Match(@JsonProperty("description") String name,
+public record EventSchedule(@JsonProperty("Schedule") List<Match> schedule) {
+  public record Match(@JsonProperty String description,
                       @JsonProperty LocalDateTime startTime,
-                      @JsonProperty("matchNumber") int number,
+                      @JsonProperty int matchNumber,
                       @JsonProperty Field field,
-                      @JsonProperty("tournamentLevel") MatchLevel level,
+                      @JsonProperty TournamentLevel tournamentLevel,
                       @JsonProperty List<MatchTeam> teams) {}
 
   public enum Field {
@@ -25,7 +25,8 @@ public record EventSchedule(@JsonProperty("Schedule") List<Match> matches) {
     }
   }
 
-  public static Endpoint<EventSchedule> forLevel(int year, String eventCode, MatchLevel level) {
+  public static Endpoint<EventSchedule> forLevel(int year, String eventCode,
+                                                 TournamentLevel level) {
     return forQuery(year, eventCode, new Query().withLevel(level));
   }
 
@@ -38,7 +39,7 @@ public record EventSchedule(@JsonProperty("Schedule") List<Match> matches) {
   }
 
   public static class Query extends QueryBuilder {
-    public Query withLevel(MatchLevel level) {
+    public Query withLevel(TournamentLevel level) {
       putParam("tournamentLevel", level.value);
       return this;
     }

@@ -1,6 +1,6 @@
 package org.victorrobotics.frcevents.scorebreakdown;
 
-import org.victorrobotics.frcevents.MatchLevel;
+import org.victorrobotics.frcevents.TournamentLevel;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public record Crescendo2024Breakdown(/* Required properties */
                                      @JsonProperty List<Alliance> alliances,
-                                     @JsonProperty MatchLevel matchLevel,
+                                     @JsonProperty TournamentLevel matchLevel,
                                      @JsonProperty int matchNumber,
                                      /* Year-specific properties */
                                      @JsonProperty boolean coopertitionBonusAchieved,
@@ -21,13 +21,13 @@ public record Crescendo2024Breakdown(/* Required properties */
                                      @JsonProperty int ensembleBonusOnStageRobotsThreshold)
     implements ScoreBreakdown<Crescendo2024Breakdown.Alliance> {
   public record Alliance(@JsonProperty AllianceColor alliance,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean autoLineRobot1,
                          @JsonProperty EndGameState endGameRobot1,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean autoLineRobot2,
                          @JsonProperty EndGameState endGameRobot2,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean autoLineRobot3,
                          @JsonProperty EndGameState endGameRobot3,
                          @JsonProperty int autoAmpNoteCount,
@@ -68,7 +68,7 @@ public record Crescendo2024Breakdown(/* Required properties */
                          @JsonProperty boolean g424Penalty,
                          @JsonProperty int adjustPoints,
                          @JsonProperty int foulPoints,
-                         @JsonProperty int rp,
+                         @JsonProperty("rp") int rankingPoints,
                          @JsonProperty int totalPoints)
       implements ScoreBreakdown.Alliance {}
 

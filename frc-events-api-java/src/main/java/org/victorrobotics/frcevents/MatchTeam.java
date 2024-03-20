@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public record MatchTeam(@JsonProperty int teamNumber,
                         @JsonProperty AllianceStation station,
-                        @JsonProperty("dq") boolean disqualified) {
+                        @JsonProperty("dq") boolean isDisqualified) {
   public enum AllianceStation {
     RED_1("Red1", true, 1),
     RED_2("Red2", true, 2),

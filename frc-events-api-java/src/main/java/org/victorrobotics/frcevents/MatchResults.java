@@ -7,11 +7,11 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record MatchResults(@JsonProperty("Matches") List<MatchResult> matches) {
-  public record MatchResult(@JsonProperty("description") String name,
-                            @JsonProperty("matchNumber") int number,
-                            @JsonProperty("tournamentLevel") MatchLevel level,
-                            @JsonProperty("actualStartTime") LocalDateTime startTime,
-                            @JsonProperty("postResultTime") LocalDateTime resultTime,
+  public record MatchResult(@JsonProperty String description,
+                            @JsonProperty int matchNumber,
+                            @JsonProperty TournamentLevel tournamentLevel,
+                            @JsonProperty LocalDateTime actualStartTime,
+                            @JsonProperty LocalDateTime postResultTime,
                             @JsonProperty List<MatchTeam> teams,
                             @JsonProperty Integer scoreRedFinal,
                             @JsonProperty Integer scoreRedFoul,
@@ -22,13 +22,13 @@ public record MatchResults(@JsonProperty("Matches") List<MatchResult> matches) {
                             /* Undocumented */
                             @JsonProperty boolean isReplay,
                             @JsonProperty LocalDateTime autoStartTime,
-                            @JsonProperty("matchVideoLink") URL videoUrl) {}
+                            @JsonProperty URL matchVideoLink) {}
 
   public static Endpoint<MatchResults> forAll(int year, String eventCode) {
     return Endpoint.of("/" + year + "/matches/" + eventCode, MatchResults.class);
   }
 
-  public static Endpoint<MatchResults> forLevel(int year, String eventCode, MatchLevel level) {
+  public static Endpoint<MatchResults> forLevel(int year, String eventCode, TournamentLevel level) {
     return forQuery(year, eventCode, new Query().withLevel(level));
   }
 
@@ -41,7 +41,7 @@ public record MatchResults(@JsonProperty("Matches") List<MatchResult> matches) {
   }
 
   public static class Query extends QueryBuilder {
-    public Query withLevel(MatchLevel level) {
+    public Query withLevel(TournamentLevel level) {
       putParam("tournamentLevel", level.value);
       return this;
     }

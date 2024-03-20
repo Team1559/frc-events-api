@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record SeasonSummary(@JsonProperty int eventCount,
                             @JsonProperty String gameName,
-                            @JsonProperty("kickoff") LocalDateTime kickoffTime,
-                            @JsonProperty("rookieStart") int minRookieTeamNumber,
+                            @JsonProperty LocalDateTime kickoff,
+                            @JsonProperty int rookieStart,
                             @JsonProperty int teamCount,
                             @JsonProperty("frcChampionships") List<Championship> championships) {
   public record Championship(@JsonProperty String name,

@@ -1,15 +1,11 @@
 package org.victorrobotics.frcevents.scorebreakdown;
 
-import org.victorrobotics.frcevents.MatchLevel;
+import org.victorrobotics.frcevents.TournamentLevel;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.util.StdConverter;
 
 public sealed interface ScoreBreakdown<A extends ScoreBreakdown.Alliance>
     permits RapidReact2022Breakdown, ChargedUp2023Breakdown, Crescendo2024Breakdown {
@@ -31,7 +27,7 @@ public sealed interface ScoreBreakdown<A extends ScoreBreakdown.Alliance>
     }
   }
 
-  MatchLevel matchLevel();
+  TournamentLevel matchLevel();
 
   int matchNumber();
 
@@ -56,20 +52,9 @@ public sealed interface ScoreBreakdown<A extends ScoreBreakdown.Alliance>
     return null;
   }
 
-  class YesNoDeserializer extends StdDeserializer<Boolean> {
-    public YesNoDeserializer() {
-      this(null);
-    }
-
-    public YesNoDeserializer(Class<?> vc) {
-      super(vc);
-    }
-
+  class YesNoConverter extends StdConverter<String, Boolean> {
     @Override
-    public Boolean deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-      JsonNode node = jp.getCodec()
-                        .readTree(jp);
-      String str = node.textValue();
+    public Boolean convert(String str) {
       if ("Yes".equals(str)) {
         return Boolean.TRUE;
       } else if ("No".equals(str)) {

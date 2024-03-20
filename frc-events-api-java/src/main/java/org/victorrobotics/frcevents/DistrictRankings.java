@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record DistrictRankings(@JsonProperty("districtRanks") List<DistrictRanking> ranks,
+public record DistrictRankings(@JsonProperty List<DistrictRanking> districtRanks,
                                @JsonProperty("rankingCountTotal") int queryRankingCount,
                                @JsonProperty("rankingCountPage") int pageRankingCount,
                                @JsonProperty("pageCurrent") int pageNumber,

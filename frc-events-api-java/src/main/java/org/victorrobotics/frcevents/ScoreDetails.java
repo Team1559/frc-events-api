@@ -18,17 +18,17 @@ public record ScoreDetails<B extends ScoreBreakdown<?>>(@JsonProperty("MatchScor
     private RapidReact2022() {}
 
     public static Endpoint<ScoreDetails<RapidReact2022Breakdown>> forAll(String eventCode,
-                                                                         MatchLevel level) {
+                                                                         TournamentLevel level) {
       return ScoreDetails.forAll(eventCode, level, 2022, RAPID_REACT_2022);
     }
 
     public static Endpoint<ScoreDetails<RapidReact2022Breakdown>>
-        forMatch(String eventCode, MatchLevel level, int matchNumber) {
+        forMatch(String eventCode, TournamentLevel level, int matchNumber) {
       return ScoreDetails.forMatch(eventCode, level, matchNumber, 2022, RAPID_REACT_2022);
     }
 
     public static Endpoint<ScoreDetails<RapidReact2022Breakdown>>
-        forQuery(String eventCode, MatchLevel level, Query query) {
+        forQuery(String eventCode, TournamentLevel level, Query query) {
       return ScoreDetails.forQuery(eventCode, level, query, 2022, RAPID_REACT_2022);
     }
   }
@@ -40,17 +40,17 @@ public record ScoreDetails<B extends ScoreBreakdown<?>>(@JsonProperty("MatchScor
     private ChargedUp2023() {}
 
     public static Endpoint<ScoreDetails<ChargedUp2023Breakdown>> forAll(String eventCode,
-                                                                        MatchLevel level) {
+                                                                        TournamentLevel level) {
       return ScoreDetails.forAll(eventCode, level, 2023, CHARGED_UP_2023);
     }
 
     public static Endpoint<ScoreDetails<ChargedUp2023Breakdown>>
-        forMatch(String eventCode, MatchLevel level, int matchNumber) {
+        forMatch(String eventCode, TournamentLevel level, int matchNumber) {
       return ScoreDetails.forMatch(eventCode, level, matchNumber, 2023, CHARGED_UP_2023);
     }
 
     public static Endpoint<ScoreDetails<ChargedUp2023Breakdown>>
-        forQuery(String eventCode, MatchLevel level, Query query) {
+        forQuery(String eventCode, TournamentLevel level, Query query) {
       return ScoreDetails.forQuery(eventCode, level, query, 2023, CHARGED_UP_2023);
     }
   }
@@ -62,30 +62,30 @@ public record ScoreDetails<B extends ScoreBreakdown<?>>(@JsonProperty("MatchScor
     private Crescendo2024() {}
 
     public static Endpoint<ScoreDetails<Crescendo2024Breakdown>> forAll(String eventCode,
-                                                                        MatchLevel level) {
+                                                                        TournamentLevel level) {
       return ScoreDetails.forAll(eventCode, level, 2024, CRESCENDO_2024);
     }
 
     public static Endpoint<ScoreDetails<Crescendo2024Breakdown>>
-        forMatch(String eventCode, MatchLevel level, int matchNumber) {
+        forMatch(String eventCode, TournamentLevel level, int matchNumber) {
       return ScoreDetails.forMatch(eventCode, level, matchNumber, 2024, CRESCENDO_2024);
     }
 
     public static Endpoint<ScoreDetails<Crescendo2024Breakdown>>
-        forQuery(String eventCode, MatchLevel level, Query query) {
+        forQuery(String eventCode, TournamentLevel level, Query query) {
       return ScoreDetails.forQuery(eventCode, level, query, 2024, CRESCENDO_2024);
     }
   }
 
   private static <B extends ScoreBreakdown<?>>
       Endpoint<ScoreDetails<B>>
-      forAll(String eventCode, MatchLevel level, int year, TypeReference<ScoreDetails<B>> type) {
+      forAll(String eventCode, TournamentLevel level, int year, TypeReference<ScoreDetails<B>> type) {
     return Endpoint.of("/" + year + "/scores/" + eventCode + "/" + level.value, type);
   }
 
   private static <B extends ScoreBreakdown<?>>
       Endpoint<ScoreDetails<B>>
-      forMatch(String eventCode, MatchLevel level, int matchNumber, int year,
+      forMatch(String eventCode, TournamentLevel level, int matchNumber, int year,
                TypeReference<ScoreDetails<B>> type) {
     return Endpoint.of("/" + year + "/scores/" + eventCode + "/" + level.value + "?matchNumber="
         + matchNumber, type);
@@ -93,7 +93,7 @@ public record ScoreDetails<B extends ScoreBreakdown<?>>(@JsonProperty("MatchScor
 
   private static <B extends ScoreBreakdown<?>>
       Endpoint<ScoreDetails<B>>
-      forQuery(String eventCode, MatchLevel level, Query query, int year,
+      forQuery(String eventCode, TournamentLevel level, Query query, int year,
                TypeReference<ScoreDetails<B>> type) {
     return Endpoint.of("/" + year + "/scores/" + eventCode + "/" + level.value + query.build(),
                        type);

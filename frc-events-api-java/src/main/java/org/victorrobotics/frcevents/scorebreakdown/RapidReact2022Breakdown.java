@@ -1,6 +1,6 @@
 package org.victorrobotics.frcevents.scorebreakdown;
 
-import org.victorrobotics.frcevents.MatchLevel;
+import org.victorrobotics.frcevents.TournamentLevel;
 
 import java.util.List;
 
@@ -9,17 +9,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public record RapidReact2022Breakdown(@JsonProperty List<Alliance> alliances,
-                                      @JsonProperty MatchLevel matchLevel,
+                                      @JsonProperty TournamentLevel matchLevel,
                                       @JsonProperty int matchNumber)
     implements ScoreBreakdown<RapidReact2022Breakdown.Alliance> {
   public record Alliance(@JsonProperty AllianceColor alliance,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean taxiRobot1,
                          @JsonProperty EndgameState endgameRobot1,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean taxiRobot2,
                          @JsonProperty EndgameState endgameRobot2,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean taxiRobot3,
                          @JsonProperty EndgameState endgameRobot3,
                          @JsonProperty int autoCargoLowerNear,
@@ -54,7 +54,7 @@ public record RapidReact2022Breakdown(@JsonProperty List<Alliance> alliances,
                          @JsonProperty int techFoulCount,
                          @JsonProperty int adjustPoints,
                          @JsonProperty int foulPoints,
-                         @JsonProperty int rp,
+                         @JsonProperty("rp") int rankingPoints,
                          @JsonProperty int totalPoints)
       implements ScoreBreakdown.Alliance {}
 

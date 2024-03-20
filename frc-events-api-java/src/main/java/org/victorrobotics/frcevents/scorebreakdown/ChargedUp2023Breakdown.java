@@ -1,6 +1,6 @@
 package org.victorrobotics.frcevents.scorebreakdown;
 
-import org.victorrobotics.frcevents.MatchLevel;
+import org.victorrobotics.frcevents.TournamentLevel;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,19 +14,19 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 public record ChargedUp2023Breakdown(@JsonProperty List<Alliance> alliances,
-                                     @JsonProperty MatchLevel matchLevel,
+                                     @JsonProperty TournamentLevel matchLevel,
                                      @JsonProperty int matchNumber)
     implements ScoreBreakdown<ChargedUp2023Breakdown.Alliance> {
   public record Alliance(@JsonProperty AllianceColor alliance,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean mobilityRobot1,
                          @JsonProperty EndGameState autoChargeStationRobot1,
                          @JsonProperty EndGameState endGameChargeStationRobot1,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean mobilityRobot2,
                          @JsonProperty EndGameState autoChargeStationRobot2,
                          @JsonProperty EndGameState endGameChargeStationRobot2,
-                         @JsonDeserialize(using = YesNoDeserializer.class)
+                         @JsonDeserialize(converter = YesNoConverter.class)
                          @JsonProperty boolean mobilityRobot3,
                          @JsonProperty EndGameState autoChargeStationRobot3,
                          @JsonProperty EndGameState endGameChargeStationRobot3,
@@ -61,12 +61,12 @@ public record ChargedUp2023Breakdown(@JsonProperty List<Alliance> alliances,
                          @JsonProperty boolean h111Penalty,
                          @JsonProperty int adjustPoints,
                          @JsonProperty int foulPoints,
-                         @JsonProperty int rp,
+                         @JsonProperty("rp") int rankingPoints,
                          @JsonProperty int totalPoints)
       implements ScoreBreakdown.Alliance {}
 
   public record Community(@JsonProperty("T") List<Piece> top,
-                          @JsonProperty("M") List<Piece> middle,
+                          @JsonProperty("M") List<Piece> mid,
                           @JsonProperty("B") List<Piece> bottom) {}
 
   public record Link(@JsonProperty Row row,
@@ -87,7 +87,7 @@ public record ChargedUp2023Breakdown(@JsonProperty List<Alliance> alliances,
 
   public enum Row {
     BOTTOM("Bottom"),
-    MIDDLE("Mid"),
+    MID("Mid"),
     TOP("Top");
 
     @JsonValue

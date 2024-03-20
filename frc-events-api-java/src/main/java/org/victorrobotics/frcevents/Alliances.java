@@ -12,9 +12,8 @@ public record Alliances(@JsonProperty("Alliances") List<Alliance> alliances,
                          @JsonProperty int round1,
                          @JsonProperty int round2,
                          @JsonProperty Integer round3,
-                         /* Unable to determine format */
-                         @JsonProperty Object backup,
-                         @JsonProperty Object backupReplaced) {}
+                         @JsonProperty Integer backup,
+                         @JsonProperty Boolean backupReplaced) {}
 
   public static Endpoint<Alliances> forEvent(int year, String eventCode) {
     return Endpoint.of("/" + year + "/alliances/" + eventCode, Alliances.class);

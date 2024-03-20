@@ -8,10 +8,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.util.StdConverter;
 
 public sealed interface ScoreBreakdown<A extends ScoreBreakdown.Alliance>
-    permits RapidReact2022Breakdown, ChargedUp2023Breakdown, Crescendo2024Breakdown {
+    permits RecycleRush2015Breakdown, RapidReact2022Breakdown, ChargedUp2023Breakdown,
+    Crescendo2024Breakdown {
   sealed interface Alliance
-      permits RapidReact2022Breakdown.Alliance, ChargedUp2023Breakdown.Alliance,
-      Crescendo2024Breakdown.Alliance {
+      permits RecycleRush2015Breakdown.Alliance, RapidReact2022Breakdown.Alliance,
+      ChargedUp2023Breakdown.Alliance, Crescendo2024Breakdown.Alliance {
     AllianceColor alliance();
   }
 

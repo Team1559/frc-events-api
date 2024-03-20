@@ -1,16 +1,43 @@
 package org.victorrobotics.frcevents;
 
+import org.victorrobotics.frcevents.Events.Event;
 import org.victorrobotics.frcevents.scores.ChargedUp2023Breakdown;
 import org.victorrobotics.frcevents.scores.Crescendo2024Breakdown;
 import org.victorrobotics.frcevents.scores.RapidReact2022Breakdown;
+import org.victorrobotics.frcevents.scores.RecycleRush2015Breakdown;
 import org.victorrobotics.frcevents.scores.ScoreBreakdown;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public record ScoreDetails<B extends ScoreBreakdown<?>>(@JsonProperty("MatchScores") List<B> scores) {
+  public static final class RecycleRush2015 {
+    private static final TypeReference<ScoreDetails<RecycleRush2015Breakdown>> RECYCLE_RUSH_2015 =
+        new TypeReference<ScoreDetails<RecycleRush2015Breakdown>>() {};
+
+    private RecycleRush2015() {}
+
+    public static Endpoint<ScoreDetails<RecycleRush2015Breakdown>> forAll(String eventCode,
+                                                                          TournamentLevel level) {
+      return ScoreDetails.forAll(eventCode, level, 2015, RECYCLE_RUSH_2015);
+    }
+
+    public static Endpoint<ScoreDetails<RecycleRush2015Breakdown>>
+        forMatch(String eventCode, TournamentLevel level, int matchNumber) {
+      return ScoreDetails.forMatch(eventCode, level, matchNumber, 2015, RECYCLE_RUSH_2015);
+    }
+
+    public static Endpoint<ScoreDetails<RecycleRush2015Breakdown>>
+        forQuery(String eventCode, TournamentLevel level, Query query) {
+      return ScoreDetails.forQuery(eventCode, level, query, 2015, RECYCLE_RUSH_2015);
+    }
+  }
+
   public static final class RapidReact2022 {
     private static final TypeReference<ScoreDetails<RapidReact2022Breakdown>> RAPID_REACT_2022 =
         new TypeReference<ScoreDetails<RapidReact2022Breakdown>>() {};
@@ -79,7 +106,8 @@ public record ScoreDetails<B extends ScoreBreakdown<?>>(@JsonProperty("MatchScor
 
   private static <B extends ScoreBreakdown<?>>
       Endpoint<ScoreDetails<B>>
-      forAll(String eventCode, TournamentLevel level, int year, TypeReference<ScoreDetails<B>> type) {
+      forAll(String eventCode, TournamentLevel level, int year,
+             TypeReference<ScoreDetails<B>> type) {
     return Endpoint.of("/" + year + "/scores/" + eventCode + "/" + level.value, type);
   }
 
